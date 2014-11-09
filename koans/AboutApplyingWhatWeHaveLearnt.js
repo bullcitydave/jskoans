@@ -88,13 +88,43 @@ describe("About Applying What We Have Learnt", function() {
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+
   it("should find the largest prime factor of a composite number", function () {
 
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
 
+    var y = 999;
+    var largestPalindrome = 0;
+    var lp_x;
+    var lp_y;
+
+    function isPalindrome(x) {
+      xS = x.toString();
+
+      if (((xS.charAt(0) === xS.charAt(5))) &&
+        ((xS.charAt(1) === xS.charAt(4))) &&
+        ((xS.charAt(2) === xS.charAt(3)))) {
+        return true;
+      }
+      return false;
+
+    }
+
+  for (x=100;x < 1000;x++) {
+    for (y=100; y < 1000; y++) {
+
+    if (isPalindrome(x*y))  {
+        if ((x*y) > largestPalindrome)
+         { largestPalindrome = x*y;
+           lp_x = x;
+           lp_y = y;
+         }
+      }
+    }
+  }
+    expect(largestPalindrome).toBe(906609);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
@@ -109,5 +139,5 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
   });
-  */
+
 });
