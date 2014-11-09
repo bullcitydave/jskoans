@@ -89,10 +89,6 @@ describe("About Applying What We Have Learnt", function() {
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
 
-  it("should find the largest prime factor of a composite number", function () {
-
-  });
-
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
 
     var y = 999;
@@ -101,42 +97,127 @@ describe("About Applying What We Have Learnt", function() {
     var lp_y;
 
     function isPalindrome(x) {
-      xS = x.toString();
-
-      if (((xS.charAt(0) === xS.charAt(5))) &&
-        ((xS.charAt(1) === xS.charAt(4))) &&
-        ((xS.charAt(2) === xS.charAt(3)))) {
+      x2 = x;
+      if (x2.toString() === (((x.toString()).split("")).reverse()).join("")) {
         return true;
       }
-      return false;
-
     }
 
-  for (x=100;x < 1000;x++) {
-    for (y=100; y < 1000; y++) {
+    for (x=100;x < 1000;x++) {
+      for (y=100; y < 1000; y++) {
 
-    if (isPalindrome(x*y))  {
-        if ((x*y) > largestPalindrome)
-         { largestPalindrome = x*y;
-           lp_x = x;
-           lp_y = y;
-         }
+      if (isPalindrome(x*y))  {
+          if ((x*y) > largestPalindrome)
+           { largestPalindrome = x*y;
+             lp_x = x;
+             lp_y = y;
+           }
+        }
       }
-    }
   }
     expect(largestPalindrome).toBe(906609);
   });
 
+
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
 
+    var limit = 20;
+    var solution = null;
+    // already given that 2520 is the smallest for 1 to 10 so solution for any
+    // higher limit must be multiple of 2520
+    for (i = 2520; solution === null; i=i+2520 )
+      {
+         for (n = 11; n <= 20; n++)
+            {
+              if (i%n !== 0) {
+                break;
+              }
+              if (n==20) {
+                solution = i;
+              }
+            }
+      }
+
+    expect(solution).toBe(232792560);
 
   });
+
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
+    var limit = 10;  // number limit not specified, using 10
+    var sumOfSquares = 0;
+    var sum = 0;
+
+    for (i = 1; i <= limit; i++) {
+      sum = sum + i;
+      sumOfSquares = sumOfSquares + (i*i);
+    }
+
+    solution = (sum*sum) - sumOfSquares;
+
+    expect(solution).toBe(2640);
+  });
+
+
+  it("should find the 10001st prime", function () {
+    function isPrime(x) {
+        if (x%2 === 0){
+          return false;
+        }
+        for (d = 3; d < x/2; d=d+2){
+          if (x%d === 0) {
+            return false;
+          }
+        }
+        return true;
+    }
+
+    var target = 10001;
+    var p = 1;
+    var i = 2;
+
+    while (p < target){
+        i++;
+        if (isPrime(i)){
+          p++;
+        }
+    }
+
+    lastPrime = i;
+
+    expect(lastPrime).toBe(104743);
 
   });
 
-  it("should find the 10001st prime", function () {
+
+  it("should find the largest prime factor of a composite number", function () {
+
+    var target = 13195;
+    var largestFactor = 1;
+
+    function isPrime(x) {
+      if (x%2 === 0){
+        return false;
+      }
+      for (d = 3; d < x/2; d=d+2){
+        if (x%d === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    for (i = 3; i <= Math.sqrt(target); i=i+2 )
+      {
+        if ((isPrime(i)) && ((target % i) === 0)) {
+
+          if (i > largestFactor) {largestFactor = i;}
+          var j = (target/i);
+          if (isPrime(j) && j > largestFactor) {largestFactor = j;}
+          }
+      }
+
+    expect(largestFactor).toBe(29);
 
   });
 
