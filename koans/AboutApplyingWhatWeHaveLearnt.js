@@ -37,57 +37,54 @@ describe("About Applying What We Have Learnt", function() {
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
 
-      var productsICanEat = [];
+    var productsICanEat = [];
 
-      /* solve using filter() & all() / any() */
+       var productsICanEat = _.filter(products, function (product) {
+         return((!(product.containsNuts)) && !(_.any(product.ingredients, function(ingredient) {
+           return ingredient === "mushrooms"; })))
+       });
 
-      expect(productsICanEat.length).toBe(0);
+    expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
 
-  it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (imperative)", function () {
+  it("should count the ingredient occurrence (imperative)", function () {
+   var ingredientCount = { "{ingredient name}": 0 };
 
-    var sum = 0;
-    for(var i=1; i<1000; i+=1) {
-      if (i % 3 === 0 || i % 5 === 0) {
-        sum += i;
-      }
-    }
+   for (i = 0; i < products.length; i+=1) {
+       for (j = 0; j < products[i].ingredients.length; j+=1) {
+           ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
+       }
+   }
 
-    expect(sum).toBe(233168);
-  });
+   expect(ingredientCount['mushrooms']).toBe(2);
+ });
 
-  it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = 233168;    /* try chaining range() and reduce() */
+ it("should count the ingredient occurrence (functional)", function () {
 
-    expect(233168).toBe(233168);
-  });
+  var ingredientCount = { "{ingredient name}": 0 };
 
-  /*********************************************************************************/
-   it("should count the ingredient occurrence (imperative)", function () {
-    var ingredientCount = { "{ingredient name}": 0 };
+  /* cannot get working code using chain and reduce */
+  _.each(_.flatten(_.map(products, function (product) {
+     return product.ingredients;
+   })), function (ingredient) {
+     if (!(ingredientCount[ingredient])) {
+       ingredientCount[ingredient] = 1;
+     }
+     else {
+       ingredientCount[ingredient] = ingredientCount[ingredient] + 1;
+     }
+   });
 
-    for (i = 0; i < products.length; i+=1) {
-        for (j = 0; j < products[i].ingredients.length; j+=1) {
-            ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
-        }
-    }
 
-    expect(ingredientCount['mushrooms']).toBe(2);
-  });
+   /* chain() together map(), flatten() and reduce() */
 
-  it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = { "{ingredient name}": 0 };
+   expect(ingredientCount['mushrooms']).toBe(2);
+ });
 
-    /* chain() together map(), flatten() and reduce() */
-
-    expect(ingredientCount['mushrooms']).toBe(undefined);
-  });
-
-  /*********************************************************************************/
-  /* UNCOMMENT FOR EXTRA CREDIT */
+ /*********************************************************************************/
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
 
@@ -219,6 +216,37 @@ describe("About Applying What We Have Learnt", function() {
 
     expect(largestFactor).toBe(29);
 
+  });
+
+  it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (imperative)", function () {
+
+    var sum = 0;
+    for(var i=1; i<1000; i+=1) {
+      if (i % 3 === 0 || i % 5 === 0) {
+        sum += i;
+      }
+    }
+
+    expect(sum).toBe(233168);
+  });
+
+
+  it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
+
+    var sum = 0;
+
+    sum = _.chain(_.range(0,1000))
+           .reduce(function (sum,n) {
+              if (((n % 3) === 0) || ((n % 5) === 0)) {
+                return sum + n;
+              }
+              else {
+                return sum;
+              }
+            })
+          .value();
+
+    expect(sum).toBe(233168);
   });
 
 });
